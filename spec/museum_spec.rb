@@ -13,5 +13,19 @@ RSpec.describe Patron do
         @patron_1 = Patron.new("Bob", 20)
         @patron_2 = Patron.new("Sally", 20)
     end
+
+    describe "#initialize" do
+        it "exists" do
+            expect(@dmns).to be_an_instance_of(Museum)
+        end
+
+        it "has a name" do
+            expect(@dmns.name).to eq("Denver Museum of Nature and Science")
+        end
+
+        it "can store exhibits" do
+            expect(@dmns.exhibits).to eq([])
+        end
+    end
 end
 

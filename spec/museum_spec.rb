@@ -60,5 +60,17 @@ RSpec.describe Patron do
             expect(@dmns.recommend_exhibits(@patron_2)).to eq([@imax])
         end
     end
+    
+    describe "#admit" do
+        it "can add Patron Objects to the patrons Array" do
+            expect(@dmns.patrons).to eq([])
+
+            @dmns.admit(@patron_1)
+            @dmns.admit(@patron_2)
+            @dmns.admit(@patron_3)
+
+            expect(@dmns.patrons).to eq([@patron_1, @patron_2, @patron_3])
+        end
+    end
 end
 

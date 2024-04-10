@@ -127,5 +127,39 @@ RSpec.describe Museum do
             expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
         end
     end
+
+    describe "#draw_lottery_winner" do
+        it "returns a Patron's name randomly from lottery for Exhibit" do
+            @dmns.add_exhibit(@dead_sea_scrolls)
+
+            @patron_1.add_interest("Dead Sea Scrolls")
+            @patron_2.add_interest("Dead Sea Scrolls")
+            @patron_3.add_interest("Dead Sea Scrolls")
+
+            @dmns.admit(@patron_1)
+            @dmns.admit(@patron_2)
+            @dmns.admit(@patron_3)
+
+            expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq([@patron_1, @patron_3])
+
+            allow(@dmns).to receive(:draw_lottery_winner).with(@dead_sea_scrolls).and_return("Bob")
+        end
+
+        it "returns nil if there are no Patrons in lottery for Exhibit" do
+            @dmns.add_exhibit(@gems_and_minerals)
+
+            @patron_1.add_interest("Gems and Minerals")
+            @patron_2.add_interest("Gems and Minerals")
+            @patron_3.add_interest("Gems and Minerals")
+
+            @dmns.admit(@patron_1)
+            @dmns.admit(@patron_2)
+            @dmns.admit(@patron_3)
+
+            expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
+
+            allow(@dmns).to receive(:draw_lottery_winner).with(@gems_and_minerals).and_return(nil)
+        end
+    end
 end
 

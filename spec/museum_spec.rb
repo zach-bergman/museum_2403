@@ -143,6 +143,8 @@ RSpec.describe Museum do
             expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq([@patron_1, @patron_3])
 
             allow(@dmns).to receive(:draw_lottery_winner).with(@dead_sea_scrolls).and_return("Bob")
+
+            expect(@dmns.draw_lottery_winner(@dead_sea_scrolls)).to eq("Bob")
         end
 
         it "returns nil if there are no Patrons in lottery for Exhibit" do
@@ -159,6 +161,50 @@ RSpec.describe Museum do
             expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
 
             allow(@dmns).to receive(:draw_lottery_winner).with(@gems_and_minerals).and_return(nil)
+
+            expect(@dmns.draw_lottery_winner(@gems_and_minerals)).to eq(nil)
+        end
+    end
+
+    describe "#announce_lottery_winner" do
+        it "returns correct String announcing winner of the lottery" do
+            @dmns.add_exhibit(@imax)
+
+            @patron_1.add_interest("IMAX")
+            @patron_2.add_interest("IMAX")
+            @patron_3.add_interest("IMAX")
+
+            @dmns.admit(@patron_1)
+            @dmns.admit(@patron_2)
+            @dmns.admit(@patron_3)
+
+            expect(@dmns.ticket_lottery_contestants(@imax)).to eq([@patron_1, @patron_3])
+
+            allow(@dmns).to receive(:draw_lottery_winner).with(@imax).and_return("Bob")
+
+            allow(@dmns).to receive(:announce_lottery_winner).with(@imax).and_return("Bob has won the IMAX exhibit lottery")
+
+            expect(@dmns.announce_lottery_winner(@imax)).to eq("Bob has won the IMAX exhibit lottery")
+        end
+
+        it "returns no winners if there are no Patrons in lottery for Exhibit" do
+            @dmns.add_exhibit(@gems_and_minerals)
+
+            @patron_1.add_interest("Gems and Minerals")
+            @patron_2.add_interest("Gems and Minerals")
+            @patron_3.add_interest("Gems and Minerals")
+
+            @dmns.admit(@patron_1)
+            @dmns.admit(@patron_2)
+            @dmns.admit(@patron_3)
+
+            expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
+
+            allow(@dmns).to receive(:draw_lottery_winner).with(@gems_and_minerals).and_return(nil)
+
+            allow(@dmns).to receive(:announce_lottery_winner).with(@gems_and_minerals).and_return("No winners for this lottery")
+
+            expect(@dmns.announce_lottery_winner(@gems_and_minerals)).to eq("No winners for this lottery")
         end
     end
 end

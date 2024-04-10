@@ -99,7 +99,7 @@ RSpec.describe Museum do
     end
 
     describe "#ticket_lottery_contestants" do
-        it "returns an array of Patron Objects that don't have the money, but are interested in Exhibit" do
+        it "returns an Array of Patron Objects that don't have the money, but are interested in Exhibit" do
             @dmns.add_exhibit(@dead_sea_scrolls)
 
             @patron_1.add_interest("Dead Sea Scrolls")
@@ -111,6 +111,20 @@ RSpec.describe Museum do
             @dmns.admit(@patron_3)
 
             expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq([@patron_1, @patron_3])
+        end
+
+        it "returns empty Array for free Exhibit" do
+            @dmns.add_exhibit(@gems_and_minerals)
+
+            @patron_1.add_interest("Gems and Minerals")
+            @patron_2.add_interest("Gems and Minerals")
+            @patron_3.add_interest("Gems and Minerals")
+
+            @dmns.admit(@patron_1)
+            @dmns.admit(@patron_2)
+            @dmns.admit(@patron_3)
+
+            expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
         end
     end
 end

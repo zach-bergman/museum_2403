@@ -12,6 +12,7 @@ RSpec.describe Patron do
 
         @patron_1 = Patron.new("Bob", 20)
         @patron_2 = Patron.new("Sally", 20)
+        @patron_3 = Patron.new("Johnny", 5)
     end
 
     describe "#initialize" do

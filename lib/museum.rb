@@ -38,4 +38,12 @@ class Museum
         end
         hash
     end
+
+    def ticket_lottery_contestants(exhibit)
+        @patrons.select do |patron|
+            if patron.interests.include?(exhibit.name) && patron.spending_money < exhibit.cost
+                patron
+            end
+        end
+    end
 end

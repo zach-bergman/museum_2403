@@ -10,7 +10,7 @@ RSpec.describe Museum do
         @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
         @imax = Exhibit.new({name: "IMAX",cost: 15})
 
-        @patron_1 = Patron.new("Bob", 20)
+        @patron_1 = Patron.new("Bob", 0)
         @patron_2 = Patron.new("Sally", 20)
         @patron_3 = Patron.new("Johnny", 5)
     end
@@ -95,6 +95,18 @@ RSpec.describe Museum do
             }
 
             expect(@dmns.patrons_by_exhibit_interest).to eq(expected)
+        end
+    end
+
+    describe "#ticket_lottery_contestants" do
+        it "returns an array of Patron Objects that don't have the money, but are interested in Exhibit" do
+            @dmns.add_exhibit(@dead_sea_scrolls)
+
+            @patron_1.add_interest("Dead Sea Scrolls")
+            @patron_2.add_interest("Dead Sea Scrolls")
+            @patron_3.add_interest("Dead Sea Scrolls")
+
+            expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq([@patron_1, @patron_3])
         end
     end
 end

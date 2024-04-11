@@ -221,6 +221,22 @@ RSpec.describe Museum do
         end
     end
 
+    describe "attend_higher_cost_exhibit_first" do
+        @dmns.add_exhibit(@gems_and_minerals)
+        @dmns.add_exhibit(@dead_sea_scrolls)
+        @dmns.add_exhibit(@imax)
+
+        @patron_1.add_interest("Gems and Minerals")
+        @patron_1.add_interest("Dead Sea Scrolls")
+        @patron_1.add_interest("IMAX")
+
+        @dmns.admit(@patron_1)
+
+        expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[0]).to eq(@imax)
+        expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[1]).to eq(@dead_sea_scrolls)
+        expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[2]).to eq(@gems_and_minerals)
+    end
+
 
 
     # describe "#attend_exhibit" do

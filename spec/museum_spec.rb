@@ -208,56 +208,66 @@ RSpec.describe Museum do
         end
     end
 
-    describe "#patron_interested_in_exhibit?" do
-        it "returns true if Patron is interested in Exhibit" do
-            @dmns.add_exhibit(@dead_sea_scrolls)
-
-            @patron_1.add_interest("Dead Sea Scrolls")
-
-            @dmns.admit(@patron_1)
-
-            expect(@dmns.patron_interested_in_exhibit?(@patron_1, @dead_sea_scrolls)).to eq(true)
-            expect(@dmns.patron_interested_in_exhibit?(@patron_1, @gems_and_minerals)).to eq(false)
+    describe "Integrating New Patrons - Iteration 4" do
+        before(:each) do
+            @tj = Patron.new("TJ", 7)
+            @patron_1 = Patron.new("Bob", 10)
+            @patron_2 = Patron.new("Sally", 20)
+            @morgan = Patron.new("Morgan", 15)
         end
-    end
 
-    # describe "attend_higher_cost_exhibit_first" do ## do next
-    #     @dmns.add_exhibit(@gems_and_minerals)
-    #     @dmns.add_exhibit(@dead_sea_scrolls)
-    #     @dmns.add_exhibit(@imax)
+        describe "#patron_interested_in_exhibit?" do
+            it "returns true if Patron is interested in Exhibit" do
+                @dmns.add_exhibit(@dead_sea_scrolls)
 
-    #     @patron_1.add_interest("Gems and Minerals")
-    #     @patron_1.add_interest("Dead Sea Scrolls")
-    #     @patron_1.add_interest("IMAX")
+                @patron_1.add_interest("Dead Sea Scrolls")
 
-    #     @dmns.admit(@patron_1)
+                @dmns.admit(@patron_1)
 
-    #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[0]).to eq(@imax)
-    #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[1]).to eq(@dead_sea_scrolls)
-    #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[2]).to eq(@gems_and_minerals)
-    # end
-
-    describe "#not_enough_spending_money?" do
-        it "returns true if Patron does not have enough money to attend Exhibit" do
-            expect(@dmns.not_enough_spending_money?(@patron_3, @dead_sea_scrolls)).to eq(true)
-            expect(@dmns.not_enough_spending_money?(@patron_2, @dead_sea_scrolls)).to eq(false)
+                expect(@dmns.patron_interested_in_exhibit?(@patron_1, @dead_sea_scrolls)).to eq(true)
+                expect(@dmns.patron_interested_in_exhibit?(@patron_1, @gems_and_minerals)).to eq(false)
+            end
         end
-    end
 
-    describe "#pay_for_exhibit" do
-        it "subtracts cost of Exhibit from Patron's spending money, adds it to Museum revenue" do
-            expect(@dmns.pay_for_exhibit(@patron_2, @dead_sea_scrolls)).to eq(10)
+        # describe "attend_higher_cost_exhibit_first" do ## do next
+        #     @dmns.add_exhibit(@gems_and_minerals)
+        #     @dmns.add_exhibit(@dead_sea_scrolls)
+        #     @dmns.add_exhibit(@imax)
+
+        #     @patron_1.add_interest("Gems and Minerals")
+        #     @patron_1.add_interest("Dead Sea Scrolls")
+        #     @patron_1.add_interest("IMAX")
+
+        #     @dmns.admit(@patron_1)
+
+        #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[0]).to eq(@imax)
+        #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[1]).to eq(@dead_sea_scrolls)
+        #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[2]).to eq(@gems_and_minerals)
+        # end
+
+        describe "#not_enough_spending_money?" do
+            it "returns true if Patron does not have enough money to attend Exhibit" do
+                expect(@dmns.not_enough_spending_money?(@patron_3, @dead_sea_scrolls)).to eq(true)
+                expect(@dmns.not_enough_spending_money?(@patron_2, @dead_sea_scrolls)).to eq(false)
+            end
         end
+
+        describe "#pay_for_exhibit" do
+            it "subtracts cost of Exhibit from Patron's spending money, adds it to Museum revenue" do
+                expect(@dmns.pay_for_exhibit(@patron_2, @dead_sea_scrolls)).to eq(10)
+                expect(@dmns.pay_for_exhibit(@patron_3, @dead_sea_scrolls)).to eq(10)
+            end
+        end
+
+
+
+        # describe "#attend_exhibit" do
+        #     it "can create Hash with keys as Exhibit Objects and values as Patron Objects who attend" do
+        #         expected = {
+
+        #         }
+        #     end
+        # end
     end
-
-
-
-    # describe "#attend_exhibit" do
-    #     it "can create Hash with keys as Exhibit Objects and values as Patron Objects who attend" do
-    #         expected = {
-
-    #         }
-    #     end
-    # end
 end
 

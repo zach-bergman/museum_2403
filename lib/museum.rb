@@ -67,4 +67,8 @@ class Museum
     def not_enough_spending_money?(patron, exhibit)
         patron.spending_money < exhibit.cost
     end
+
+    def pay_for_exhibit(patron, exhibit)
+        patron.spending_money - exhibit.cost
+    end
 end

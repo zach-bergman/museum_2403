@@ -31,6 +31,10 @@ RSpec.describe Museum do
         it "can store patrons" do
             expect(@dmns.patrons).to eq([])
         end
+
+        it "can track revenue" do
+            expect(@dmns.revenue).to eq(0)
+        end
     end
 
     describe "#add_exhibit" do

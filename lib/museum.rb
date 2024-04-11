@@ -62,4 +62,8 @@ class Museum
     def patron_interested_in_exhibit?(patron, exhibit)
         patron.interests.include?(exhibit.name)
     end
+
+    def not_enough_spending_money?(patron, exhibit)
+        patron.spending_money < exhibit.cost
+    end
 end

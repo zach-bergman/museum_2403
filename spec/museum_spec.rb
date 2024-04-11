@@ -229,21 +229,19 @@ RSpec.describe Museum do
             end
         end
 
-        # describe "attend_higher_cost_exhibit_first" do ## do next
-        #     @dmns.add_exhibit(@gems_and_minerals)
-        #     @dmns.add_exhibit(@dead_sea_scrolls)
-        #     @dmns.add_exhibit(@imax)
+        describe "attend_higher_cost_exhibit_first" do
+            it "returns the higher cost Exhibit" do
+                @dmns.add_exhibit(@gems_and_minerals)
+                @dmns.add_exhibit(@dead_sea_scrolls)
 
-        #     @patron_1.add_interest("Gems and Minerals")
-        #     @patron_1.add_interest("Dead Sea Scrolls")
-        #     @patron_1.add_interest("IMAX")
+                @morgan.add_interest("Gems and Minerals")
+                @morgan.add_interest("Dead Sea Scrolls")
 
-        #     @dmns.admit(@patron_1)
+                @dmns.admit(@morgan)
 
-        #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[0]).to eq(@imax)
-        #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[1]).to eq(@dead_sea_scrolls)
-        #     expect(@dmns.attend_higher_cost_exhibit_first(@patron_1)[2]).to eq(@gems_and_minerals)
-        # end
+                expect(@dmns.attend_higher_cost_exhibit_first(@morgan)).to eq(@dead_sea_scrolls)
+            end
+        end
 
         describe "#not_enough_spending_money?" do
             it "returns true if Patron does not have enough money to attend Exhibit" do
@@ -253,7 +251,7 @@ RSpec.describe Museum do
         end
 
         describe "#pay_for_exhibit" do
-            it "subtracts cost of Exhibit from Patron's spending money, adds it to Museum revenue" do
+            it "subtracts cost of Exhibit from Patron's spending money" do
                 expect(@dmns.pay_for_exhibit(@patron_2, @dead_sea_scrolls)).to eq(10)
                 expect(@dmns.pay_for_exhibit(@morgan, @dead_sea_scrolls)).to eq(5)
             end

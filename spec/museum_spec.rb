@@ -247,15 +247,15 @@ RSpec.describe Museum do
 
         describe "#not_enough_spending_money?" do
             it "returns true if Patron does not have enough money to attend Exhibit" do
-                expect(@dmns.not_enough_spending_money?(@patron_3, @dead_sea_scrolls)).to eq(true)
                 expect(@dmns.not_enough_spending_money?(@patron_2, @dead_sea_scrolls)).to eq(false)
+                expect(@dmns.not_enough_spending_money?(@tj, @dead_sea_scrolls)).to eq(true)
             end
         end
 
         describe "#pay_for_exhibit" do
             it "subtracts cost of Exhibit from Patron's spending money, adds it to Museum revenue" do
                 expect(@dmns.pay_for_exhibit(@patron_2, @dead_sea_scrolls)).to eq(10)
-                expect(@dmns.pay_for_exhibit(@patron_3, @dead_sea_scrolls)).to eq(10)
+                expect(@dmns.pay_for_exhibit(@morgan, @dead_sea_scrolls)).to eq(5)
             end
         end
 

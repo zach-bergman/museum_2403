@@ -7,6 +7,7 @@ class Museum
         @name = name
         @exhibits = []
         @patrons = []
+        @revenue = 0
     end
 
     def add_exhibit(exhibit)

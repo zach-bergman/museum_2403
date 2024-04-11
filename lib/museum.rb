@@ -58,4 +58,8 @@ class Museum
             "No winners for the lottery"
         end
     end
+
+    def patron_interested_in_exhibit?(patron, exhibit)
+        patron.interests.include?(exhibit.name)
+    end
 end

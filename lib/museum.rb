@@ -24,6 +24,7 @@ class Museum
 
     def admit(patron)
         @patrons << patron
+        # final attend method here
     end
 
     def patrons_by_exhibit_interest

@@ -207,5 +207,28 @@ RSpec.describe Museum do
             expect(@dmns.announce_lottery_winner(@gems_and_minerals)).to eq("No winners for this lottery")
         end
     end
+
+    describe "#patron_interested_in_exhibit?" do
+        it "returns true if Patron is interested in Exhibit" do
+            @dmns.add_exhibit(@dead_sea_scrolls)
+
+            @patron_1.add_interest("Dead Sea Scrolls")
+
+            @dmns.admit(@patron_1)
+
+            expect(@dmns.patron_interested_in_exhibit?(@patron_1, @dead_sea_scrolls)).to eq(true)
+            expect(@dmns.patron_interested_in_exhibit?(@patron_1, @gems_and_minerals)).to eq(false)
+        end
+    end
+
+
+
+    # describe "#attend_exhibit" do
+    #     it "can create Hash with keys as Exhibit Objects and values as Patron Objects who attend" do
+    #         expected = {
+
+    #         }
+    #     end
+    # end
 end
 

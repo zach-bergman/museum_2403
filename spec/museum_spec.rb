@@ -242,6 +242,7 @@ RSpec.describe Museum do
             @dmns.add_exhibit(@dead_sea_scrolls)
 
             expect(@dmns.not_enough_spending_money?(@patron_3, @dead_sea_scrolls)).to eq(true)
+            expect(@dmns.not_enough_spending_money?(@patron_2, @dead_sea_scrolls)).to eq(false)
         end
     end
 

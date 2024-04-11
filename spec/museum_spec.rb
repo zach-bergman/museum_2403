@@ -246,6 +246,12 @@ RSpec.describe Museum do
         end
     end
 
+    describe "#pay_for_exhibit" do
+        it "subtracts cost of Exhibit from Patron's spending money, adds it to Museum revenue" do
+            expect(@dmns.pay_for_exhibit(@patron_2, @dead_sea_scrolls)).to eq(10)
+        end
+    end
+
 
 
     # describe "#attend_exhibit" do

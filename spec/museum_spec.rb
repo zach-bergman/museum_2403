@@ -241,7 +241,7 @@ RSpec.describe Museum do
         it "returns true if Patron does not have enough money to attend Exhibit" do
             @dmns.add_exhibit(@dead_sea_scrolls)
 
-            expect(@dmns.not_enough_spending_money?(@patron_1)).to eq(true)
+            expect(@dmns.not_enough_spending_money?(@patron_3)).to eq(true)
         end
     end
 

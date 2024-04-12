@@ -24,7 +24,6 @@ class Museum
 
     def admit(patron)
         @patrons << patron
-        # final attend method here
     end
 
     def patrons_by_exhibit_interest
@@ -71,5 +70,11 @@ class Museum
 
     def pay_for_exhibit(patron, exhibit)
         patron.spending_money - exhibit.cost
+    end
+
+    def attend_higher_cost_exhibit_first(patron, exhibits)
+        exhibits.max_by do |exhibit|
+            exhibit.cost
+        end
     end
 end

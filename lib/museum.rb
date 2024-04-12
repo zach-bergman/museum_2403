@@ -77,4 +77,16 @@ class Museum
             exhibit.cost
         end
     end
+
+    def patron_attend_exhibit(patron)
+        attend = Hash.new { |hash, key| hash[key] = [] }
+        @exhibits.each do |exhibit|
+            if patron_interested_in_exhibit?(patron, exhibit) && !not_enough_spending_money?(patron, exhibit)
+                attend = attend[patron] = attend_higher_cost_exhibit_first(patron, exhibit)
+            end
+        end
+        attend
+        # pay_for_exhibit(patron, attend[patron])
+        # @revenue += pay_for_exhibit(patron, attend[patron])
+    end
 end

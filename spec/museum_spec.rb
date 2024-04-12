@@ -1,6 +1,4 @@
-require './lib/museum'
-require './lib/patron'
-require './lib/exhibit'
+require "spec_helper"
 
 RSpec.describe Museum do
     before(:each) do
@@ -229,17 +227,11 @@ RSpec.describe Museum do
             end
         end
 
-        describe "attend_higher_cost_exhibit_first" do
+        describe "attend_higher_cost_exhibit_first" do ### continue here
             it "returns the higher cost Exhibit" do
-                @dmns.add_exhibit(@gems_and_minerals)
-                @dmns.add_exhibit(@dead_sea_scrolls)
+                exhibits = [@gems_and_minerals, @dead_sea_scrolls]
 
-                @morgan.add_interest("Gems and Minerals")
-                @morgan.add_interest("Dead Sea Scrolls")
-
-                @dmns.admit(@morgan)
-
-                expect(@dmns.attend_higher_cost_exhibit_first(@morgan)).to eq(@dead_sea_scrolls)
+                expect(@dmns.attend_higher_cost_exhibit_first(@morgan, exhibits)).to eq(@dead_sea_scrolls)
             end
         end
 

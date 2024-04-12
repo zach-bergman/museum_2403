@@ -1,4 +1,4 @@
-require './lib/exhibit'
+require "spec_helper"
 
 RSpec.describe Exhibit do
     before(:each) do

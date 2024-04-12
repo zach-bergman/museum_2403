@@ -7,6 +7,7 @@ class Museum
         @name = name
         @exhibits = []
         @patrons = []
+        @revenue = 0
     end
 
     def add_exhibit(exhibit)
@@ -57,5 +58,35 @@ class Museum
         else
             "No winners for the lottery"
         end
+    end
+
+    def patron_interested_in_exhibit?(patron, exhibit)
+        patron.interests.include?(exhibit.name)
+    end
+
+    def not_enough_spending_money?(patron, exhibit)
+        patron.spending_money < exhibit.cost
+    end
+
+    def pay_for_exhibit(patron, exhibit)
+        patron.spending_money - exhibit.cost
+    end
+
+    def attend_higher_cost_exhibit_first(patron, exhibits)
+        exhibits.max_by do |exhibit|
+            exhibit.cost
+        end
+    end
+
+    def patron_attend_exhibit(patron)
+        attend = Hash.new { |hash, key| hash[key] = [] }
+        @exhibits.each do |exhibit|
+            if patron_interested_in_exhibit?(patron, exhibit) && !not_enough_spending_money?(patron, exhibit)
+                attend = attend[patron] = attend_higher_cost_exhibit_first(patron, exhibit)
+            end
+        end
+        attend
+        # pay_for_exhibit(patron, attend[patron])
+        # @revenue += pay_for_exhibit(patron, attend[patron])
     end
 end

@@ -1,6 +1,4 @@
-require './lib/museum'
-require './lib/patron'
-require './lib/exhibit'
+require "spec_helper"
 
 RSpec.describe Museum do
     before(:each) do
@@ -205,6 +203,106 @@ RSpec.describe Museum do
             allow(@dmns).to receive(:announce_lottery_winner).with(@gems_and_minerals).and_return("No winners for this lottery")
 
             expect(@dmns.announce_lottery_winner(@gems_and_minerals)).to eq("No winners for this lottery")
+        end
+    end
+
+    describe "Integrating New Patrons - Iteration 4" do
+        before(:each) do
+            @tj = Patron.new("TJ", 7)
+            @patron_1 = Patron.new("Bob", 10)
+            @patron_2 = Patron.new("Sally", 20)
+            @morgan = Patron.new("Morgan", 15)
+        end
+
+        describe "#patron_interested_in_exhibit?" do
+            it "returns true if Patron is interested in Exhibit" do
+                @dmns.add_exhibit(@dead_sea_scrolls)
+
+                @patron_1.add_interest("Dead Sea Scrolls")
+
+                @dmns.admit(@patron_1)
+
+                expect(@dmns.patron_interested_in_exhibit?(@patron_1, @dead_sea_scrolls)).to eq(true)
+                expect(@dmns.patron_interested_in_exhibit?(@patron_1, @gems_and_minerals)).to eq(false)
+            end
+        end
+
+        describe "attend_higher_cost_exhibit_first" do ### continue here
+            it "returns the higher cost Exhibit" do
+                exhibits = [@gems_and_minerals, @dead_sea_scrolls]
+
+                expect(@dmns.attend_higher_cost_exhibit_first(@morgan, exhibits)).to eq(@dead_sea_scrolls)
+            end
+        end
+
+        describe "#not_enough_spending_money?" do
+            it "returns true if Patron does not have enough money to attend Exhibit" do
+                expect(@dmns.not_enough_spending_money?(@patron_2, @dead_sea_scrolls)).to eq(false)
+                expect(@dmns.not_enough_spending_money?(@tj, @dead_sea_scrolls)).to eq(true)
+            end
+        end
+
+        describe "#pay_for_exhibit" do
+            it "subtracts cost of Exhibit from Patron's spending money" do
+                expect(@dmns.pay_for_exhibit(@patron_2, @dead_sea_scrolls)).to eq(10)
+                expect(@dmns.pay_for_exhibit(@morgan, @dead_sea_scrolls)).to eq(5)
+            end
+        end
+
+        describe "#patron_attend_exhibit" do
+            it "can create Hash with keys as Exhibit Objects and values of Arrays of Patron Objects who attend" do
+                @dmns.add_exhibit(@gems_and_minerals)
+                @dmns.add_exhibit(@imax)
+                @dmns.add_exhibit(@dead_sea_scrolls)
+
+                ########################
+
+                @tj.add_interest("IMAX")
+                @tj.add_interest("Dead Sea Scrolls")
+
+                @dmns.admit(@tj)
+
+                expected = { @tj => [] }
+
+                expect(@dmns.patron_attend_exhibit(@tj)).to eq(expected)
+                expect(@tj.spending_money).to eq(7)
+
+                ########################
+
+                @patron_1.add_interest("Dead Sea Scrolls")
+                @patron_1.add_interest("IMAX")
+
+                @dmns.admit(@patron_1)
+
+                expected = { @patron_1 => [@dead_sea_scrolls] }
+
+                expect(@dmns.patron_attend_exhibit(@patron_1)).to eq(expected)
+                expect(@patron_1.spending_money).to eq(0)
+
+                ##########################
+
+                @patron_2.add_interest("IMAX")
+                @patron_2.add_interest("Dead Sea Scrolls")
+
+                @dmns.admit(@patron_2)
+
+                expected = { @patron_2 => [@imax] }
+
+                expect(@dmns.patron_attend_exhibit(@patron_2)).to eq(expected)
+                expect(@patron_2.spending_money).to eq(5)
+
+                ##########################
+
+                @morgan.add_interest("Gems and Minerals")
+                @morgan.add_interest("Dead Sea Scrolls")
+
+                @dmns.admit(@morgan)
+
+                expected = { @morgan => [@dead_sea_scrolls, @gems_and_minerals] }
+
+                expect(@dmns.patron_attend_exhibit(@morgan)).to eq(expected)
+                expect(@morgan.spending_money).to eq(5)
+            end
         end
     end
 end

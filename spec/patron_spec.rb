@@ -1,4 +1,4 @@
-require "./lib/patron"
+require "spec_helper"
 
 RSpec.describe Patron do
     before(:each) do
